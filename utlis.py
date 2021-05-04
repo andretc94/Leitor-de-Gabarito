@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 
-## TO STACK ALL THE IMAGES IN ONE WINDOW
+## Empilha todas as imagens em uma janela.
 def stackImages(imgArray,scale,lables=[]):
     rows = len(imgArray)
     cols = len(imgArray[0])
@@ -40,9 +40,9 @@ def stackImages(imgArray,scale,lables=[]):
 
 def reorder(myPoints):
 
-    myPoints = myPoints.reshape((4, 2)) # REMOVE EXTRA BRACKET
+    myPoints = myPoints.reshape((4, 2)) # Remove o colchete extra.
     print(myPoints)
-    myPointsNew = np.zeros((4, 1, 2), np.int32) # NEW MATRIX WITH ARRANGED POINTS
+    myPointsNew = np.zeros((4, 1, 2), np.int32) # Adiciona nova matriz com os pontos alinhados.
     add = myPoints.sum(1)
     print(add)
     print(np.argmax(add))
@@ -70,8 +70,8 @@ def rectContour(contours):
     return rectCon
 
 def getCornerPoints(cont):
-    peri = cv2.arcLength(cont, True) # LENGTH OF CONTOUR
-    approx = cv2.approxPolyDP(cont, 0.02 * peri, True) # APPROXIMATE THE POLY TO GET CORNER POINTS
+    peri = cv2.arcLength(cont, True) # Tamanho do contorno.
+    approx = cv2.approxPolyDP(cont, 0.02 * peri, True) # Aproxima o polígono para obter os pontos de canto.
     return approx
 
 def splitBoxes(img):
@@ -113,7 +113,7 @@ def showAnswers(img,myIndex,grading,ans,questions=5,choices=5):
             #cv2.rectangle(img, (myAns * secW, x * secH), ((myAns * secW) + secW, (x * secH) + secH), myColor, cv2.FILLED)
             cv2.circle(img, (cX, cY), 50, myColor, cv2.FILLED)
 
-            # CORRECT ANSWER
+            # Resposta correta.
             myColor = (0, 255, 0)
             correctAns = ans[x]
             cv2.circle(img,((correctAns * secW)+secW//2, (x * secH)+secH//2),
