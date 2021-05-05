@@ -5,7 +5,7 @@ import time
 
 
 ########################################################################
-pathImage = "1.jpg"
+pathImage = "imagens/2.jpg"
 img = cv2.imread(pathImage)
 heightImg = 700
 widthImg  = 700
@@ -43,7 +43,7 @@ while True:
             matrix = cv2.getPerspectiveTransform(pts1, pts2) # Pega a matriz de transformação.
             imgWarpColored = cv2.warpPerspective(img, matrix, (widthImg, heightImg)) # Aplica a deformação.
 
-            # Deforma o menor retângulo
+            # # Deforma o menor retângulo
             cv2.drawContours(imgBigContour, gradePoints, -1, (255, 0, 0), 20) # Desenha o maior contorno.
             gradePoints = utlis.reorder(gradePoints) #  Reorganiza para a deformação.
             ptsG1 = np.float32(gradePoints)  # Prepara os pontos para deformação.
@@ -56,7 +56,7 @@ while True:
             imgThresh = cv2.threshold(imgWarpGray, 170, 255,cv2.THRESH_BINARY_INV )[1] # Aplica a borda e a inverte.
 
             boxes = utlis.splitBoxes(imgThresh) # Pega os espaços individuais.
-            cv2.imshow("Split Test ", boxes[3])
+            # cv2.imshow("Split Test ", boxes[3])
             countR=0
             countC=0
             myPixelVal = np.zeros((questions,choices)) # Guarda os valores não nulos em cada espaço.
@@ -114,8 +114,8 @@ while True:
                         [imgBlank, imgBlank, imgBlank, imgBlank])
 
     # Rótulos para exibição.
-    lables = [["Original","Gray","Edges","Contours"],
-                ["Biggest Contour","Threshold","Warpped","Final"]]
+    lables = [["Original","Cinza","Limites","Contornos"],
+                ["Vertices","Negativo","Matriz","Final"]]
 
     stackedImage = utlis.stackImages(imageArray,0.5,lables)
     cv2.imshow("Result",stackedImage)
@@ -123,6 +123,8 @@ while True:
     # Salva quando a tecla 's' é pressionada.
     if cv2.waitKey(1) & 0xFF == ord('s'):
         cv2.imwrite("./gabarito.jpg",imgFinal)
+        cv2.imwrite("./gabarito_aproveitamento.jpg",imgRawGrade)
+       
         cv2.rectangle(stackedImage, ((int(stackedImage.shape[1] / 2) - 230), int(stackedImage.shape[0] / 2) + 50),
                         (1100, 350), (0, 255, 0), cv2.FILLED)
         cv2.putText(stackedImage, "Gabarito Salvo!", (int(stackedImage.shape[1] / 2) - 200, int(stackedImage.shape[0] / 2)),
